@@ -42,6 +42,49 @@
        }),
      });
      
+
+### Attribute based styles
+
+```ts
+function style(feature: Feature<any>) {
+    const website = feature.getProperties().website;
+
+     const blue = new Fill({
+        color: 'rgb(56, 154, 234)',
+      });
+     const gray = new Fill({
+        color: 'rgb(158, 158, 158)',
+      });
+      const stroke = new Stroke({
+        color: 'white',
+        width: 1.25,
+      });
+
+    if(website){
+      return new Style({
+          // blue color
+          image: new Circle({
+            fill: blue,
+            stroke: stroke,
+            radius: 5,
+          }),
+          fill: blue,
+          stroke: stroke,
+      });
+    } 
+
+    return new Style({
+        // gray color
+        image: new Circle({
+          fill: gray,
+          stroke: stroke,
+          radius: 5,
+        }),
+        fill: gray,
+        stroke: stroke,
+    });
+}
+```
      
 ### Overlays
 

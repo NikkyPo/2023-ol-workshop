@@ -20,27 +20,50 @@ const map = new Map({ // create Map object
  ```   
 ### Change the Basemap
 ```ts
-    layers: [
-      new TileLayer({
-        source: new XYZ({
-          url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-          maxZoom: 19
-         })
+ import XYZ from 'ol/source/XYZ' // import new module. Tile data arranged by standard XYZ grid. Accessed through URLs
+
+ const map = new Map({
+   target: 'map',
+   view: new View({
+     center: fromLonLat([-93.41, 44.92]),
+     zoom: 9,
+   }),
+   layers: [
+     new TileLayer({
+       source: new XYZ({ // new source module that fetches url
+         url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+         maxZoom: 19
        })
-    ]
+     }),
+   ],
+ });
 ```
 ### Add some data
 ```ts
-     import VectorSource from 'ol/source/Vector';
-     import { Vector as VectorLayer } from 'ol/layer';
-     import { GeoJSON } from 'ol/format';
-     
-     const trails = new VectorLayer({ // Type of layer
-       source: new VectorSource({ // how to fetch it
-         url: '/trails.json', // path to data (Metro Council Trails)
-         format: new GeoJSON() // required for rendering since fetching data from URL
-       }),
-     });
+ import VectorSource from 'ol/source/Vector';
+ import { Vector as VectorLayer } from 'ol/layer';
+ import { GeoJSON } from 'ol/format';
+
+ const trails = new VectorLayer({ // Type of layer
+   source: new VectorSource({ // how to fetch it
+     url: '/trails.json', // path to data (Metro Council Trails)
+     format: new GeoJSON() // required for rendering since fetching data from URL
+   }),
+ });
+
+ const map = new Map({
+   target: 'map',
+   layers: [
+     new TileLayer({
+       source: new OSM()
+     }),
+     trails // New map layer
+   ],
+   view: new View({
+     center: fromLonLat([-93.41, 44.92]),
+     zoom: 9,
+   })
+ });
 ```
 ### Simple Style
 ```ts

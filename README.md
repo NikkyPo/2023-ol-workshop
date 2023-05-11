@@ -38,6 +38,14 @@ const map = new Map({ // create Map object
    ],
  });
 ```
+
+### Scaleline
+```ts
+import ScaleLine from 'ol/control/ScaleLine.js';
+const scaleLineControl = new ScaleLine();
+map.addControl(scaleLineControl);
+```
+
 ### Add some data
 ```ts
  import VectorSource from 'ol/source/Vector';

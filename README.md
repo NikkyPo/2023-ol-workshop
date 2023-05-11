@@ -2,9 +2,24 @@
 
 ## Presentation:
     https://slides.com/nihelg/openlayers-101
-    
-### Change the Basemap
 
+### Getting started
+```ts
+const map = new Map({ // create Map object
+  target: 'map', // points to <div> in .html
+  layers: [ // define list of layers
+    new TileLayer({ // type of layer
+      source: new OSM() // source of layer
+    })
+  ],
+  view: new View({ // customize map object
+    center: fromLonLat([-93.41, 44.92]), // define center point
+    zoom: 9 // zoom level
+  })
+});
+ ```   
+### Change the Basemap
+```ts
     layers: [
       new TileLayer({
         source: new XYZ({
@@ -13,8 +28,9 @@
          })
        })
     ]
-
+```
 ### Add some data
+```ts
      import VectorSource from 'ol/source/Vector';
      import { Vector as VectorLayer } from 'ol/layer';
      import { GeoJSON } from 'ol/format';
@@ -25,8 +41,9 @@
          format: new GeoJSON() // required for rendering since fetching data from URL
        }),
      });
-
+```
 ### Simple Style
+```ts
      import { Stroke, Style } from 'ol/style';
      
      const trails = new VectorLayer({ // Type of layer
@@ -41,7 +58,7 @@
          })
        }),
      });
-     
+ ```    
 
 ### Attribute based styles
 
@@ -87,7 +104,7 @@ function style(feature: Feature<any>) {
 ```
      
 ### Overlays
-
+```ts
     import Overlay from 'ol/Overlay';
 
     // Elements that make up the pop-up
@@ -176,5 +193,5 @@ function style(feature: Feature<any>) {
     <div id="popup" class="ol-popup">
       <div id="popup-content"></div>
     </div>
-     
+   ```  
      

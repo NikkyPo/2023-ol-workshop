@@ -94,44 +94,68 @@ map.addControl(scaleLineControl);
 ### Attribute based styles
 
 ```ts
-function style(feature: Feature<any>) {
-    const website = feature.getProperties().website;
+import TileLayer from 'ol/layer/Tile';
+import VectorLayer from 'ol/layer/Vector';
+import {Map, View} from 'ol';
+import {Vector as VectorSource} from 'ol/source';
+import {fromLonLat} from 'ol/proj';
+import {GeoJSON} from 'ol/format';
+import OSM from 'ol/source/OSM';
+import {Stroke, Style, Circle, Fill} from 'ol/style';
 
-     const blue = new Fill({
-        color: 'rgb(56, 154, 234)',
-      });
-     const gray = new Fill({
-        color: 'rgb(158, 158, 158)',
-      });
-      const stroke = new Stroke({
-        color: 'white',
-        width: 1.25,
-      });
+function style(feature) {
+  const mass = feature.getProperties()['mass (g)'];
 
-    if(website){
-      return new Style({
-          // blue color
-          image: new Circle({
-            fill: blue,
-            stroke: stroke,
-            radius: 5,
-          }),
-          fill: blue,
-          stroke: stroke,
-      });
-    } 
+  const blue = new Fill({
+    color: 'rgb(56, 154, 234)',
+  });
+  const gray = new Fill({
+    color: 'rgb(158, 158, 158)',
+  });
+  const stroke = new Stroke({
+    color: 'white',
+    width: 1.25,
+  });
 
-    return new Style({
-        // gray color
-        image: new Circle({
-          fill: gray,
-          stroke: stroke,
-          radius: 5,
-        }),
-        fill: gray,
-        stroke: stroke,
-    });
+  return new Style({
+    // blue color
+    image: new Circle({
+      fill: blue,
+      stroke: stroke,
+      radius: Math.round(mass / 2000000),
+    }),
+    fill: blue,
+    stroke: stroke,
+  });
 }
+
+const meteorites = new VectorLayer({
+  // Type of layer
+  style: style,
+  source: new VectorSource({
+    // how to fetch it
+    url: '/meteorites.geojson', // path to data (Metro Council Trails)
+    format: new GeoJSON({
+      featureProjection: 'EPSG:4326',
+      dataProjection: 'EPSG:4326',
+    }), // required for rendering since fetching data from URL
+  }),
+});
+
+const map = new Map({
+  target: 'map',
+  layers: [
+    new TileLayer({
+      source: new OSM(),
+    }),
+    meteorites, // New map layer
+  ],
+  view: new View({
+    center: fromLonLat([-93.41, 44.92]),
+    zoom: 9,
+  }),
+});
+
 ```
      
 ### Overlays

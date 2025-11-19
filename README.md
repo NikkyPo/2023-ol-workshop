@@ -49,7 +49,7 @@ map.addControl(scaleLineControl);
 ### Add some data
 ```ts
  import VectorSource from 'ol/source/Vector';
- import { Vector as VectorLayer } from 'ol/layer';
+ import VectorLayer from "ol/layer/Vector";
  import { GeoJSON } from 'ol/format';
 
  const trails = new VectorLayer({ // Type of layer
@@ -97,7 +97,7 @@ map.addControl(scaleLineControl);
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import {Map, View} from 'ol';
-import {Vector as VectorSource} from 'ol/source';
+import VectorLayer from "ol/layer/Vector";
 import {fromLonLat} from 'ol/proj';
 import {GeoJSON} from 'ol/format';
 import OSM from 'ol/source/OSM';
